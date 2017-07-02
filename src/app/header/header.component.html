@@ -1,0 +1,32 @@
+<nav class="navbar navbar-default" style="background-color:#ccc">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a [routerLink]="['/main']">
+                <img style="display: inline-block" class="img-responsive" src="/assets/amct.jpg">
+            </a>
+      <h3 style="cursor:pointer" [routerLink]="['/main']" class="navbar-text">AMCT &reg;</h3>
+
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="navbar-main" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="super-active"><a [routerLink]="['/main']">Herramientas</a></li>
+        <li routerLinkActive="super-active" *ngIf="!adminVisible"><a [routerLink]="['/user']">Usuario</a></li>
+        <li routerLinkActive="super-active" *ngIf="adminVisible"><a [routerLink]="['/admin']">Admin</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" cataDropdown>
+          <a class="dropdown-toggle" role="button">Opciones<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a style="cursor:pointer;" (click)="onLogout()">Cerrar Sesión</a></li>
+          </ul>
+        </li>
+      </ul>
+
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

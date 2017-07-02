@@ -1,0 +1,11 @@
+<form class="form-signin" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <h2 class="form-signin-heading">Por favor ingresa tus credenciales</h2>
+        <label for="inputEmail" class="sr-only">Nombre de usuario</label>
+        <input type="email" id="inputEmail" name="email" ngModel class="form-control" placeholder="Correo" required autofocus>
+        <div style="margin-top:10px">
+          <label for="inputPassword" class="sr-only">Contraseña</label>
+          <input type="password" name="password" class="form-control" placeholder="Password" ngModel required>
+        </div>
+        <hr/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!f.valid">Ingresar</button>
+</form>

@@ -1,0 +1,36 @@
+.list-element-cata {
+  cursor : pointer !important;
+}
+
+.list-element-cata:hover{
+  background-color: transparent;
+}
+
+.loading-bar {
+    width:200px;
+    height:20px;
+    border: 2px solid black;
+    border-radius : 5px;
+    margin:auto;
+    box-sizing: content-box;
+}
+
+.loading-bar-element{
+    width:0;
+    height: 20px;
+    background-color:#d9edf7;
+    animation: loading 1000ms ease-out infinite;
+}
+
+@keyframes loading{
+    0%{
+        width:0;
+        
+    }
+    50%{
+        background-color: #31708f;
+    }
+    100%{
+        width:100%;
+    }
+}

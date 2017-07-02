@@ -1,0 +1,10 @@
+.blue-strong {
+    color: blue;
+    font-size: 2em;
+    background-color: floralwhite;
+    width: 100%;
+    height: 50px;
+    border: 2px solid grey;
+    padding: 0 0 10px 10px;
+    border-radius: 8px;
+}

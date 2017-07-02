@@ -1,0 +1,5 @@
+<ul class="star-rating" *ngFor="let star of stars; let i = index">
+  <li class="star" (click)="handleStarClicked(i)">
+    <i class="fa fa-glass" [ngClass]="{'star-filled': star.selected || shouldBeMarked(i+1)}"></i>
+  </li>
+</ul>

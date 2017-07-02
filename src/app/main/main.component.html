@@ -1,0 +1,53 @@
+<h2> Hola {{name}} </h2>
+
+<p> Hoy es {{ date | date:'yMMMMEEEEd' }}  </p>
+
+<div>
+  <h3> Catas Disponibles </h3>
+  <div
+      class="loading-bar"
+      *ngIf="!availableCatas">
+      <div
+        class="loading-bar-element"
+        *ngIf="progress2 != 1"></div>
+  </div>
+  <div *ngIf="availableCatas?.length === 0 && progress2 == 1" class="alert alert-info">
+    <strong>Por el momento no hay catas disponibles</strong>
+  </div>
+  <ul class="list-group">
+    <a (click)="showDetails($event)" class="list-group-item list-element-cata" *ngFor="let cata of availableCatas; let i = index">
+      <h4>{{cata.name}} <span style="font-size: 0.8em; color: #7f8c8d">({{cata.kind | tequilaType:true}})</span></h4>
+      <div>
+        <span>{{cata.place}}</span>
+        <div class="btn-group pull-right"  style="margin-top:-20px;">
+          <button class="btn btn-info" (click)="enrollToCata(cata._id, i)"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Registrarse</button>
+        </div>
+      </div>
+    </a>
+  </ul>
+</div>
+
+<div>
+  <h3> Catas en las que se ha unido </h3>
+  <div
+      class="loading-bar"
+      *ngIf="!registeredCatas">
+      <div
+        class="loading-bar-element"
+        *ngIf="progress != 'Finished'"></div>
+  </div>
+  <div *ngIf="registeredCatas?.length === 0 && progress == 'Finished'" class="alert alert-info">
+    <strong>No se encuentra registrado a ninguna cata</strong>
+  </div>
+  <ul class="list-group">
+    <a (click)="showDetails($event)" class="list-group-item list-element-cata" *ngFor="let cata of registeredCatas">
+      <h4>{{cata.name}} <span style="font-size: 0.8em; color: #7f8c8d">({{cata.kind | tequilaType:true}})</span></h4>
+      <div>
+        <span>{{cata.place}}</span>
+        <div class="btn-group pull-right"  style="margin-top:-20px;">
+          <button [disabled]="cata.status !== 2" class="btn btn-info" (click)="joinCata(cata._id, cata.kind)"><i class="glyphicon glyphicon-arrow-right"></i>&nbsp;Entrar</button>
+        </div>
+      </div>
+    </a>
+  </ul>
+</div>

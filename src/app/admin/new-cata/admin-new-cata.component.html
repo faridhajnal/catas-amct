@@ -1,0 +1,26 @@
+<button (click)="goBack()" class="btn btn-info"><i class="glyphicon glyphicon-arrow-left"></i></button>
+
+<h2>Registrar cata</h2>
+<form (ngSubmit)="register(f.value)" #f="ngForm" >
+  <div class="form-group">
+    <div class="form-group">
+    <label for="name">Nombre</label>
+    <input class="form-control" id="name" type="text" name="name" placeholder="Nombre" [(ngModel)]="cataName" autofocus required>
+  </div>
+  <div class="form-group">
+    <label for="place">Locación</label>
+    <input class="form-control" id="place" type="text" name="place" placeholder="Locación" [(ngModel)]="cataLocation" autofocus required>
+  </div>
+    <div class="form-group">
+      <label for="sel1">Tipo</label>
+      <select class="form-control" id="sel1" ngModel name="kind" required>
+        <option value="0">Blancos</option>
+        <option value="1">Reposados</option>
+        <option value="2">Añejos</option>
+        <option value="3">Extra Añejos</option>
+      </select>
+    </div>
+    <button class="btn btn-success form-control" type="submit" [disabled]="!f.valid">Enviar</button>
+  </div>
+
+</form>

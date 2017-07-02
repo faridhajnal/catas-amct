@@ -1,0 +1,38 @@
+<h2 class="page-header text-center">Tequila # {{tequilaNo}}</h2>
+<div *ngFor="let categoria of CATEGORIAS; let i = index">
+    <div class="blue-strong">
+        <strong [title]="categoria.description">{{categoria.name}}</strong>&nbsp;<i class="fa" [ngClass]="getIconForCategory(categoria.name)" aria-hidden="true"></i>
+        ({{categoria.min}} - {{categoria.max}})
+    </div>
+
+    <div class="row" *ngFor="let sub of categoria.subs; let j = index">
+        <div class="col-xs-12 col-md-6">
+
+        <h1 class="text-center"> {{sub.name}} </h1>
+
+        </div>
+        <div class="col-xs-12 col-md-6 text-right">
+
+            <span style="font-size:1.5em">({{sub.rating}})</span>
+            <cata-rating [resetStars]="resetStars"
+                         [min]="categoria.min"
+                         [max]="categoria.max" 
+                         [category]="categoria.name"
+                         [subCategory]="sub"
+                         (ratingChanged)="onRatingChanged($event, i, j)">
+            </cata-rating>
+        </div>
+        <br>
+    </div>
+    
+
+</div>
+<div class="text-right">
+    <strong>Total al momento : {{extractRatings()['total']}}</strong>
+</div>
+<hr/>
+<button class="btn btn-info form-control" [disabled]="isOneNull()" style="height:120%" type="button" (click)="onSendRatings()">
+    <span style="font-size:1.5em; font-weight:bolder;">Siguiente</span>
+</button>
+
+

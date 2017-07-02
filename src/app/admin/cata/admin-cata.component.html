@@ -1,0 +1,21 @@
+
+<button (click)="goBack()" class="btn btn-info"><i class="glyphicon glyphicon-arrow-left"></i></button>
+<hr/>
+<div style="display:inline-block">
+
+    <h1 style="display:inline-block">
+      {{title}} 
+    </h1>
+
+    <button (click)="setCataAsStarted()" *ngIf="status !== 2" style="display:inline-block; margin-left:20px;margin-bottom:10px" class="btn btn-warning">
+      Marcar como iniciada
+    </button>
+
+</div>
+
+<h3>Catadores Registrados Actualmente</h3>
+<strong *ngIf="catadores?.length === 0" style="color:red">Aún no hay catadores registrados</strong>
+<ul class="list-group">
+
+  <li class="list-group-item" *ngFor="let catador of catadores">{{catador.name}}</li>
+</ul>

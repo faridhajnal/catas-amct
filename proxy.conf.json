@@ -1,0 +1,16 @@
+{
+	"/cata" : {
+        "target" : "http://localhost:3000",
+        "secure" : false
+    },
+
+    "/catador" : {
+        "target" : "http://localhost:3000",
+        "secure" : false
+    },
+
+    "/tequila" : {
+        "target" : "http://localhost:3000",
+        "secure" : false
+    }
+}

@@ -1,0 +1,77 @@
+<div><button (click)="goBack()" class="btn btn-info"><i class="glyphicon glyphicon-arrow-left"></i></button>
+</div>
+<hr/>
+<div>
+<ul class="nav nav-pills">
+    <li (click)="activeTab = 'Tequila'" [ngClass]="{'super-active' : activeTab === 'Tequila'}"><a style="cursor:pointer">Tequilas</a></li>
+    <li (click)="activeTab = 'Info'" [ngClass]="{'super-active' : activeTab === 'Info'}"><a style="cursor:pointer">Información</a></li>
+
+</ul>
+</div>
+<div class="page-header" style="display:inline-block">
+  <h2 style="display:inline-block">Editar cata</h2>
+  <button *ngIf="activeTab === 'Tequila'" [disabled]="participantTequilas?.length === 0" (click)="addTequilasToCata(user.id)" class="btn btn-warning" style="margin-left:20px;margin-bottom:10px">Guardar Cambios</button>
+</div>
+<form (ngSubmit)="edit(f.value)" #f="ngForm" *ngIf="activeTab === 'Info'">
+  <div class="form-group">
+    <div class="form-group">
+    <label for="name">Nombre</label>
+    <input class="form-control" id="name" type="text" name="name" placeholder="Nombre" [(ngModel)]="cata.name" required>
+  </div>
+  <div class="form-group">
+    <label for="place">Locación</label>
+    <input class="form-control" id="place" type="text" name="place" placeholder="Locación" [(ngModel)]="cata.place" required>
+  </div>
+    <div class="form-group">
+      <label for="sel1">Tipo</label>
+      <select class="form-control" id="sel1" [(ngModel)]="cata.kind" name="kind" required>
+        <option value="0">Blancos</option>
+        <option value="1">Reposados</option>
+        <option value="2">Añejos</option>
+        <option value="3">Extra Añejos</option>
+      </select>
+    </div>
+    <button class="btn btn-success form-control" type="submit" [disabled]="!f.valid">Enviar</button>
+  </div>
+
+</form>
+
+<div class="row" *ngIf="activeTab === 'Tequila'">
+
+  <div class="col-md-6 col-xs-12">
+    <select (change)="onChange(selection.value)" class="form-control" #selection>
+        <option *ngFor="let tequila of tequilaCatalogue | sortName; let i = index" [value]="i">{{tequila.name}}</option>
+    </select>
+    <br><br>
+    <button class="form-control btn btn-success" (click)="addSelection(selection.value)">Añadir</button>
+  </div>
+
+  <div class="col-md-6 col-xs-12">
+    <ul class="list-group">
+
+    <li class="list-group-item"><h2 style="margin-top:0"><strong>Nombre: </strong>{{selectedTequila?.name}}</h2>
+                                <h4><strong>Productora: </strong>{{selectedTequila?.manufacturer}}</h4>
+                                <strong>Precio: </strong>${{selectedTequila?.price}} MXN
+    </li>
+    </ul>
+  </div>
+
+</div>
+
+<hr/>
+<div *ngIf="activeTab === 'Tequila'">
+      <h4 class="text-center">Tequilas actualmente : {{ participantTequilas?.length }} / 10</h4>
+      <ul class="list-group">
+      <div class="row" *ngFor="let t of participantTequilas | sortName; let i = index">
+            <div class="col-xs-12">  
+              <li [ngClass]="{active : selectedTequila == t}" style="cursor:pointer;" class="list-group-item"
+                  (click)="selectedTequila = t">
+                <strong>{{i+1}}.</strong> {{t.name}}
+                <button (click)="removeFromList(i)" class="btn btn-xs btn-danger pull-right">Quitar</button>
+
+              </li>
+            </div>
+      </div>
+      </ul>
+</div>
+

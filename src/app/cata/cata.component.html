@@ -1,0 +1,10 @@
+
+<!--<h3>Esperando al administrador ... </h3>-->
+
+<cata-rate-tequila *ngIf="!break" (scoresReady)="onScoresReady($event)" [tequilaNo]="tequilaNo"></cata-rate-tequila>
+
+<div *ngIf="break">
+
+    <h2>Gracias por enviar tus resultados. Por favor espera a que la cata finalice</h2>
+    <button (click)="goBack()" style="font-size:1.5em; height:45px;" class="btn btn-success btn-block form-control">Terminar</button>
+</div>
