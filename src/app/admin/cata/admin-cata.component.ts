@@ -1,5 +1,5 @@
 import { User } from './../../models/user.model';
-import { SocketService } from './../../services/socket.service';
+//import { SocketService } from './../../services/socket.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HttpService } from './../../services/http.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class AdminCataComponent implements OnInit, OnDestroy {
               private router : Router,
               private httpService: HttpService,
               private cookies : CookieService,
-              private socket : SocketService) { }
+              /*private socket : SocketService*/) { }
 
   catadores : Object[] = [];
   connection;
@@ -29,7 +29,7 @@ export class AdminCataComponent implements OnInit, OnDestroy {
   status : number = -1;
   ngOnInit() {
       this.cataId = this.activatedRoute.snapshot.params['id'];
-      this.socket.initSocket();
+      //this.socket.initSocket();
       this.httpService.getCata(this.cataId, this.user.id).subscribe(cata => {
         this.title = cata.name;
         this.status = cata.status;
@@ -37,15 +37,12 @@ export class AdminCataComponent implements OnInit, OnDestroy {
           this.catadores.push({name:p.name});
         }
       })
-      this.connection = this.socket.getMessages().subscribe(message => {
-        let type = message['type'];
-        let name = message['user'];
-        let i = this.catadores.indexOf(name);
-        if(type === 0) this.catadores.push({name});
-        /*else if(type === 2){
-          this.catadores.splice(i, 1);
-        }*/
-      });
+      // this.connection = this.socket.getMessages().subscribe(message => {
+      //   let type = message['type'];
+      //   let name = message['user'];
+      //   let i = this.catadores.indexOf(name);
+      //   if(type === 0) this.catadores.push({name});
+      // });
   }
 
   setCataAsStarted(){
@@ -63,8 +60,8 @@ export class AdminCataComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.connection.unsubscribe();
-    this.socket.disconnectSocket();
+    //this.connection.unsubscribe();
+    //this.socket.disconnectSocket();
   }
 
   goBack(){

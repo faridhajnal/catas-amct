@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
           confirmButtonText: 'OK'
         }).then(()=> {
           if(isAdmin) this.router.navigateByUrl('/admin');
-          else this.router.navigateByUrl('/menu');
+          else this.router.navigateByUrl('/main');
         });
 
       },

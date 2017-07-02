@@ -1,5 +1,5 @@
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { SocketService } from './../services/socket.service';
+//import { SocketService } from './../services/socket.service';
 import { HttpService } from './../services/http.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from "../services/auth.service";
@@ -32,7 +32,7 @@ export class MainComponent implements OnInit, OnDestroy {
               private route : ActivatedRoute,
               private authService : AuthService,
               private httpService : HttpService,
-              private socket : SocketService,
+              //private socket : SocketService,
               private cookieService : CookieService) {
 
   }
@@ -60,14 +60,14 @@ export class MainComponent implements OnInit, OnDestroy {
       this.progress = "Finished";
       this.registeredCatas = catas;
     });
-    this.socket.initSocket();
-    this.connection = this.socket.getMessages().subscribe(message => {
-       console.log(message);
-    });
+    // this.socket.initSocket();
+    // this.connection = this.socket.getMessages().subscribe(message => {
+    //    console.log(message);
+    // });
   }
 
   sendValue(msg){
-    this.socket.sendMessage({msg, userId : this.user_id});
+    // this.socket.sendMessage({msg, userId : this.user_id});
   }
 
   showDetails(event){
@@ -86,7 +86,7 @@ export class MainComponent implements OnInit, OnDestroy {
         this.httpService.addCatadorToCata(cataId, this.user_id, this.user_name).subscribe((response)=>{
            this.availableCatas.splice(index,1);
 
-        this.socket.sendMessage({ type : 0, user : this.user_name});
+        // this.socket.sendMessage({ type : 0, user : this.user_name});
         
       });
     },()=>{});
@@ -96,7 +96,7 @@ export class MainComponent implements OnInit, OnDestroy {
   joinCata(id, kind){
 
     this.httpService.verifyCataParticipation(id,this.user_id).subscribe(data=>{
-        this.socket.sendMessage({ type : 1 , user : this.user_name});
+        //this.socket.sendMessage({ type : 1 , user : this.user_name});
         localStorage.setItem('kind', kind);
         this.router.navigate(['event', id, 1], {relativeTo:this.route}); 
       
@@ -113,7 +113,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.connection.unsubscribe();
+    //this.connection.unsubscribe();
     this.enrolledSub.unsubscribe();
     this.availableSub.unsubscribe();
   }
