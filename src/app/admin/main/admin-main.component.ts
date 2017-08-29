@@ -1,16 +1,20 @@
+import { slideOut } from '../../animations/animations';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HttpService } from './../../services/http.service';
 import { SocketService } from './../../services/socket.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'cata-admin-main',
   templateUrl: './admin-main.component.html',
-  styleUrls: ['./admin-main.component.css']
+  styleUrls: ['./admin-main.component.css'],
+  animations: [
+    slideOut
+  ]
 })
 export class AdminMainComponent implements OnInit, OnDestroy {
-
+  @HostBinding('@slideOut') routeAnimation = true;
   catas : Object[] = [];
   user = JSON.parse(this.cookies.get('user'));
   constructor(private socket : SocketService, private httpService : HttpService, private cookies : CookieService, private router: Router, private route : ActivatedRoute) { }

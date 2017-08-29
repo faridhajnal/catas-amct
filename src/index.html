@@ -6,11 +6,81 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <title>CatasAmctClient</title>
+  <style>
+    html, body{
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    .parent{
+      display: flex;
+      height: 100%;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loading {
+      height: 125px;
+      width: 125px;
+      background: #dd5e89;
+      background: -webkit-linear-gradient(to right, #dd5e89, #f7bb97);
+      background: linear-gradient(to right, #dd5e89, #f7bb97); 
+      border-radius: 50%;
+      animation: rotate 1.5s ease-in-out infinite alternate;
+    }
+
+    .icon{
+      animation: rotate2 1s ease-in-out infinite alternate;
+      margin-left: 3px;
+      margin-top: 10px;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: scale(1)
+      }
+
+      to {
+        transform: scale(1.2)
+      }
+    }
+
+    @keyframes rotate2 {
+      from {
+        transform: rotateZ(45deg);
+      }
+
+      to {
+        transform: rotateZ(-45deg);
+      }
+    }
+  </style>
   <base href="/">
 </head>
 <body>
 
-  <cata-root>Loading...</cata-root>
+  <cata-root><div class="parent">
+    <div class="loading">
+      <svg class="icon" width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+      <g id="glass">
+          <g transform="matrix(-1,0.000198027,-0.000198027,-1,239.023,232.976)">
+              <path d="M191,193L48,193L83.75,40L155.25,40L191,193Z" style="fill:rgb(131,180,206);"/>
+          </g>
+          <g transform="matrix(-0.811212,0.000160642,-0.000176017,-0.888854,216.459,211.527)">
+              <path d="M191,193L48,193L83.75,40L155.25,40L191,193Z" style="fill:rgb(100,184,231);"/>
+          </g>
+          <path d="M47.985,39.986L83,193.007L117,193L101,40L47.985,39.986Z" style="fill:rgb(120,173,202);"/>
+          <path d="M61.483,39.986L90,175.998L116,175.998L102,39.986L61.483,39.986Z" style="fill:rgb(85,157,197);"/>
+      </g>
+      <g id="liquid" transform="matrix(-0.559464,0.000110789,-6.72965e-05,-0.339834,186.37,189.572)">
+          <path d="M191,193L48,193L65.067,40L173.933,40L191,193Z" style="fill:rgb(255,170,0);"/>
+      </g>
+  </svg>
+  
+    </div>
+  </div></cata-root>
 
 </body>
 

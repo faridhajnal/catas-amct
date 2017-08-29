@@ -1,7 +1,8 @@
+import { slideOut } from '../../animations/animations';
 import { User } from './../../models/user.model';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HttpService } from './../../services/http.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { Form } from "@angular/forms";
 import { CanComponentDeactivate } from "../../services/can-deactivate-guard.service";
@@ -10,10 +11,13 @@ import { default as swal } from 'sweetalert2'
 @Component({
   selector: 'cata-admin-new-cata',
   templateUrl: './admin-new-cata.component.html',
-  styleUrls: ['./admin-new-cata.component.css']
+  styleUrls: ['./admin-new-cata.component.css'],
+  animations: [
+    slideOut
+  ]
 })
 export class AdminNewCataComponent implements OnInit, CanComponentDeactivate {
-
+  @HostBinding('@slideOut') routeAnimation = true;
   hasSaved : boolean = false;
   cataName : string = "";
   cataLocation : string = "";

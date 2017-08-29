@@ -1,7 +1,8 @@
+import { slideOut } from '../animations/animations';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 //import { SocketService } from './../services/socket.service';
 import { HttpService } from './../services/http.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from "../services/auth.service";
 import { CataUser } from "../models/cata_user.model";
 import { default as swal } from 'sweetalert2'
@@ -11,10 +12,13 @@ import { Observable } from "rxjs/Observable";
 @Component({
   selector: 'cata-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
+  animations: [
+    slideOut
+  ]
 })
 export class MainComponent implements OnInit, OnDestroy {
-
+  @HostBinding('@slideOut') routeAnimation = true;
   user_id : string;
   user_name : string;
   name : string;
@@ -46,7 +50,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.user_name = JSON.parse(this.cookieService.get('user')).name;
 
 
-    this.availableSub = Observable.interval(3000).flatMap(()=>{
+    this.availableSub = Observable.interval(1000).flatMap(()=>{
       return this.httpService.getAvailableEvents(this.user_id);
     }).subscribe(catas=>{
         this.progress2 = 1;
@@ -54,7 +58,7 @@ export class MainComponent implements OnInit, OnDestroy {
     });
 
     
-    this.enrolledSub = Observable.interval(3000).flatMap(()=>{
+    this.enrolledSub = Observable.interval(2000).flatMap(()=>{
       return this.httpService.getEnrolledEvents(this.user_id); 
     }).subscribe((catas)=>{
       this.progress = "Finished";

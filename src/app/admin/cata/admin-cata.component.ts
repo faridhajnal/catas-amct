@@ -1,17 +1,21 @@
+import { slideOut } from '../../animations/animations';
 import { User } from './../../models/user.model';
 //import { SocketService } from './../../services/socket.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { HttpService } from './../../services/http.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { default as swal } from 'sweetalert2'
 
 
 @Component({
   selector: 'cata-admin-cata',
   templateUrl: './admin-cata.component.html',
-  styleUrls: ['./admin-cata.component.css']
+  styleUrls: ['./admin-cata.component.css'],
+  animations: [
+    slideOut
+  ]
 })
 export class AdminCataComponent implements OnInit, OnDestroy {
 
@@ -20,7 +24,7 @@ export class AdminCataComponent implements OnInit, OnDestroy {
               private httpService: HttpService,
               private cookies : CookieService,
               /*private socket : SocketService*/) { }
-
+  @HostBinding('@slideOut') routeAnimation = true;
   catadores : Object[] = [];
   connection;
   user : User = JSON.parse(this.cookies.get('user'));

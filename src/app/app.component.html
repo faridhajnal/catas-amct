@@ -1,7 +1,10 @@
-<cata-header *ngIf="navVisible"></cata-header>
-<div class="main-content" style="min-height: 100%; margin-bottom:50px">
+<div class="wrapper">
+  <cata-header *ngIf="navVisible"></cata-header>
+<div class="main-content" style="overflow: hidden">
   <router-outlet></router-outlet>
 </div>
 <footer *ngIf="navVisible" style="width:100%; height:50px; text-align:center">
   <small>Desarrollado por Farid Hajnal. 2017</small>
 </footer>
+
+</div>

@@ -1,7 +1,8 @@
+import { slideOut } from '../animations/animations';
 import { DataService } from './../services/data.service';
 import { User } from './../models/user.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { SocketService } from "../services/socket.service";
 import { CookieService } from "angular2-cookie/services/cookies.service";
 import { Subscription} from 'rxjs/Subscription';
@@ -9,7 +10,10 @@ import { Subscription} from 'rxjs/Subscription';
 @Component({
   selector: 'cata-cata',
   templateUrl: './cata.component.html',
-  styleUrls: ['./cata.component.css']
+  styleUrls: ['./cata.component.css'],
+  animations: [
+    slideOut
+  ]
 })
 export class CataComponent implements OnInit, OnDestroy {
 
@@ -18,7 +22,7 @@ export class CataComponent implements OnInit, OnDestroy {
               private dataService : DataService,
               private route : ActivatedRoute,
               private router : Router) { }
-
+  @HostBinding('@slideOut') routeAnimation = true;
   user : User;
   scoreTotal : number = 0;
   CATEGORIAS = [];

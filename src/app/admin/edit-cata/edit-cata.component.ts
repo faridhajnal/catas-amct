@@ -1,3 +1,4 @@
+import { slideOut } from '../../animations/animations';
 import { Tequila } from './../../models/tequila.model';
 import { CanComponentDeactivate } from './../../services/can-deactivate-guard.service';
 import { CataUser } from './../../models/cata_user.model';
@@ -6,16 +7,19 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { default as swal } from 'sweetalert2'
 import { SortNamePipe } from "../../shared/order-name.pipe";
 @Component({
   selector: 'cata-edit-cata',
   templateUrl: './edit-cata.component.html',
-  styleUrls: ['./edit-cata.component.css']
+  styleUrls: ['./edit-cata.component.css'],
+  animations: [
+    slideOut
+  ]
 })
 export class EditCataComponent implements OnInit, CanComponentDeactivate {
-
+  @HostBinding('@slideOut') routeAnimation = true;
   id : string = "";
   hasSaved : boolean = false;
   cataOriginal : CataUser = new CataUser(null,null,null,null,null);
