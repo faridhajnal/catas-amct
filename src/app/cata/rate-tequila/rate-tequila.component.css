@@ -1,5 +1,5 @@
 .blue-strong {
-    color: blue;
+    color: #31708f;
     font-size: 2em;
     background-color: floralwhite;
     width: 100%;
@@ -8,3 +8,19 @@
     padding: 0 0 10px 10px;
     border-radius: 8px;
 }
+
+.categories-info{
+    border-bottom : 1px solid #ccc;
+    
+}
+
+.categories-info:last-of-type{
+    border-bottom : none;
+    
+}
+
+@media (max-width: 505px) {
+    .panel {
+        margin : 10px -10px;
+    }
+  }

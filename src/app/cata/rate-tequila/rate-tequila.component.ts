@@ -6,11 +6,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SocketService } from "../../services/socket.service";
 import { CookieService } from "angular2-cookie/services/cookies.service";
 import { Observable } from "rxjs/Observable";
+import { fadeUp } from "../../animations/animations";
 
 @Component({
   selector: 'cata-rate-tequila',
   templateUrl: './rate-tequila.component.html',
-  styleUrls: ['./rate-tequila.component.css']
+  styleUrls: ['./rate-tequila.component.css'],
+  animations : [fadeUp]
 })
 export class RateTequilaComponent implements OnInit {
 

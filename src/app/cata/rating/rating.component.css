@@ -6,6 +6,7 @@
 
 .star {
     padding: 2px;
+
     color: #ddd;
     font-size: 50px;
     text-shadow: .05em .05em #aaa;
@@ -16,4 +17,12 @@
 
 .star-filled{
   color: #31708f
+}
+
+@media (max-width: 505px) {
+  .star {
+    transform: scale(0.5);
+    padding : 0;
+    margin-right: -15px;
+  }
 }
