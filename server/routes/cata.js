@@ -12,7 +12,7 @@ const json2xls = require('json2xls');
 const fs = require('fs');
 const pdf = require('html-pdf');
 const aws = require('aws-sdk');
-const AWS = require('../mlabinfo').AWS;
+//const AWS = require('../mlabinfo').AWS; //dev
 //const S3_BUCKET = AWS.bucket; //dev
 const S3_BUCKET = process.env.S3_BUCKET; //prod
 aws.config.update({region: 'us-east-2'});
