@@ -2,15 +2,27 @@
 <button (click)="goBack()" class="btn btn-info"><i class="glyphicon glyphicon-arrow-left"></i></button>
 <hr/>
 <div style="display:inline-block">
-
-    <h1 style="display:inline-block">
-      {{title}} 
-    </h1>
-
-    <button (click)="setCataAsStarted()" *ngIf="status !== 2" style="display:inline-block; margin-left:20px;margin-bottom:10px" class="btn btn-warning">
-      Marcar como iniciada
-    </button>
-
+    <div class="row">
+      <div class="col-md-8">
+        <h1 style="display:inline-block">
+          {{title}} 
+        </h1>
+      </div>
+      <div class="col-md-2">
+          <button *ngIf="status === 2" style="margin-top:23px;" class="btn btn-warning" (click)="setCataAsFinished()">
+            Dar por finalizada
+          </button>
+          <button (click)="setCataAsStarted()" *ngIf="status === 1" style="display:inline-block;margin-top:23px;" class="btn btn-warning">
+              Marcar como iniciada
+          </button>
+          <button (click)="getCataResults(0)" *ngIf="status === 3" style="display:inline-block;margin-top:23px;" class="btn btn-success">
+              Resultados Excel
+          </button>
+          <button (click)="getCataResults(1)" *ngIf="status === 3" style="display:inline-block;margin-top:23px;" class="btn btn-danger">
+            Resultados PDF
+          </button>
+      </div>
+    </div>
 </div>
 
 <h3>Catadores Registrados Actualmente</h3>
@@ -19,3 +31,4 @@
 
   <li class="list-group-item" *ngFor="let catador of catadores">{{catador.name}}</li>
 </ul>
+

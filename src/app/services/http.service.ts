@@ -99,6 +99,26 @@ export class HttpService {
     });
   }
 
+  getCataResults(cataId:string, userId:string, mode: number){
+    let headers = new Headers();
+    headers.append('Authorization', userId);
+    return this.http.get(`/cata/${cataId}/score?mode=${mode}`, {headers}).map((response:Response)=>{
+        return response.json();
+    }).catch((error: Response) => {
+                return Observable.throw(error); //still need to throw it
+    });
+  }
+
+  exportResultsToExcel(results: any, userId:string){
+    let headers = new Headers();
+    headers.append('Authorization', userId);
+    return this.http.post(`/cata/export/excel`, results, {headers}).map((response:Response)=>{
+        return response.json();
+    }).catch((error: Response) => {
+                return Observable.throw(error); //still need to throw it
+    });
+  }
+
   getTequilas(kind:number,userId:string){
     let headers = new Headers();
     headers.append('Authorization', userId);

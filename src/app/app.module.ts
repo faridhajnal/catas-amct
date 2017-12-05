@@ -45,7 +45,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [AuthService, HttpService, AuthGuard, CanDeactivateGuard, CookieService, SocketService, DataService,
               { provide : LOCALE_ID, useValue : "es-MX"}],

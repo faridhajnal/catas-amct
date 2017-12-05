@@ -83,10 +83,17 @@ export class RateTequilaComponent implements OnInit {
     let scores = this.extractRatings();
 
     this.httpService.sendScore(this.cataId, scores.total, this.tequilaNo, this.user.id)
-    .subscribe((response)=>console.log(response));
+    .subscribe((response)=>{
+      console.log(response);
+      if(response.error != null || response.error != undefined){
+        this.scoresReady.emit(null);
+      }
+      else{
+        this.resetRatings();
+        this.scoresReady.emit(scores);
+      }
+    });
 
-    this.resetRatings();
-    this.scoresReady.emit(scores);
   }
 
   extractRatings(){

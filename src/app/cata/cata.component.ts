@@ -27,7 +27,7 @@ export class CataComponent implements OnInit, OnDestroy {
   scoreTotal : number = 0;
   CATEGORIAS = [];
   tequilaNo : number;
-  tequilasTotal : number = 5;
+  totalTequilas : number = 5;
   subscription : Subscription;
   break : boolean = false;
   ngOnInit() {
@@ -91,7 +91,8 @@ export class CataComponent implements OnInit, OnDestroy {
     let scores = this.extractRatings();
     // http call for inserting scores for tequila
     this.resetRatings();
-    if(this.tequilaNo < this.tequilasTotal) this.tequilaNo += 1;
+    console.log(this.totalTequilas);
+    if(this.tequilaNo < this.totalTequilas) this.tequilaNo += 1;
     else alert('ya no hay');
   }
 
@@ -123,7 +124,7 @@ export class CataComponent implements OnInit, OnDestroy {
     console.log(scores);
     this.tequilaNo +=1;
     window.scrollTo(0, 0);
-    if(this.tequilaNo > 10){
+    if(this.tequilaNo > 10 || scores === null){
       this.break = true;
     } 
     else this.router.navigate(['../', +this.tequilaNo], {relativeTo : this.route});

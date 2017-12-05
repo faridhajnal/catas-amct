@@ -8,6 +8,16 @@ const SOCKET_PORT = 4000;
 const Catador = require('../models/catador');
 const Tequila = require('../models/tequila');
 const Cata = require('../models/cata');
+const json2xls = require('json2xls');
+const fs = require('fs');
+const pdf = require('html-pdf');
+const aws = require('aws-sdk');
+const AWS = require('../mlabinfo').AWS;
+//const S3_BUCKET = AWS.bucket; //dev
+const S3_BUCKET = process.env.S3_BUCKET; //prod
+aws.config.update({region: 'us-east-2'});
+//process.env.AWS_ACCESS_KEY_ID = AWS.key; //dev
+//process.env.AWS_SECRET_ACCESS_KEY = AWS.secret; //dev
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -88,6 +98,9 @@ router.post('/:id/score', (req,res)=>{
         if(err) return res.json({err});
         if(!cata) return res.status(404).send('Cata invalida');
         let tequila = cata.tequilas[score.index - 1];
+        if(tequila === null || tequila === undefined){
+            return res.json({error: "Ya no hay tequilas por calificar"});
+        }
         cata.scores.push({
             total : score.total,
             evaluator : score.userId.toString(),
@@ -129,7 +142,7 @@ router.use('/', (req,res,next)=>{
                 next();
             }
             else{
-                return res.status(401).send();
+                return res.status(401).send("Unauthorized");
             }
         });
     }
@@ -223,8 +236,13 @@ router.patch('/:id/:status', (req,res)=>{
     let status = req.params.status;
     let cata = Cata.findById(req.params.id, (err,cata)=>{
         if(err) return res.status(500).send(err);
-        if(!status || (status < 0 || status > 3)) return res.status(400).send('Estatus inválido');
+        if(!status || (status < 0 || status > 3) || (status == cata.status)) return res.status(400).send('Estatus inválido');
         cata.status = status;
+
+        if(status == 3){
+            cata.results = calculateResultsForCata(cata.scores);
+        }
+
         cata.save((err,result)=>{
             if(err) return res.status(500).send(err);
             return res.status(200).json({message:'Actualizado satisfactoriamente'});
@@ -244,5 +262,157 @@ router.patch('/:id', (req,res)=>{
         res.json(result);
     });
 });
+
+router.get('/:id/score', (req, res)=>{
+    let id = req.params.id;
+    let mode = req.query.mode;
+    Cata.findById(id).populate('results.tequila').exec((err, cata)=>{
+        if(err) res.json({err});
+        if(!cata || cata.results.length === 0) return res.status(404).send();
+        let simplified = cata.results.map((r)=>{
+            return {
+                average : r.average,
+                rank : r.rank,
+                cup : r.cup,
+                tequila : r.tequila.name
+            };
+        });
+        if(mode == 0){
+            let formattedResults = formatResultsJsonArray(simplified);
+            console.log('formattedResults', formattedResults);
+            const xls = json2xls(formattedResults);
+            //fs.writeFileSync('results.xlsx', xls, 'binary');
+            const buf = new Buffer(xls, 'binary');
+            const fileName = cata.name + '.xlsx';
+            const s3 = new aws.S3();
+            let uploads3Params = {
+              Body: buf,
+              Bucket: S3_BUCKET,
+              Key: fileName,
+              ContentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            };
+        
+            let gets3Params = {
+              Bucket: S3_BUCKET,
+              Key: fileName,
+              Expires : 60
+            };
+        
+            s3.putObject(uploads3Params, (err, data)=> {
+              if (err) {
+                console.log(err, err.stack);
+                return res.json({err: "Error generando archivo " + err});
+              } // an error occurred
+              else    {
+                console.log(data);
+                const url = s3.getSignedUrl('getObject', gets3Params);
+                return res.json(url);
+              }
+            });
+        }
+
+        else{
+            let html = getHtmlFromJson(simplified);
+            const options = { format: 'Letter' };
+            pdf.create(html).toBuffer(function(err, buffer){
+               console.log('This is a buffer:', Buffer.isBuffer(buffer));
+               const fileName = "ejemplo" + '.pdf';
+               const s3 = new aws.S3();
+               let uploads3Params = {
+                 Body: buffer,
+                 Bucket: S3_BUCKET,
+                 Key: fileName,
+                 ContentType: 'application/pdf'
+               };
+           
+               let gets3Params = {
+                 Bucket: S3_BUCKET,
+                 Key: fileName,
+                 Expires : 60
+               };
+           
+               s3.putObject(uploads3Params, (err, data)=> {
+                 if (err) {
+                   console.log(err, err.stack);
+                   return res.json({err: "Error generando archivo " + err});
+                 } // an error occurred
+                 else    {
+                   console.log(data);
+                   const url = s3.getSignedUrl('getObject', gets3Params);
+                   return res.json(url);
+                 }
+               });
+            });
+        }
+        
+        //return res.json(simplified);
+    });
+});
+
+router.post('/export/pdf', (req, res)=>{
+     
+});
+
+function getHtmlFromJson(resultsArray){
+    const markup = `
+        <html>
+        <body>
+            <ul>
+                ${resultsArray.map(result=> `<li><h1>${result.tequila}</h1><h3>${result.average}</h3></li>`)}
+            </ul>
+        </body>
+        </html>
+    `
+    return markup;
+}
+
+function formatResultsJsonArray(results){
+    
+        let formattedResults = [];
+        let index = 1;
+        results.forEach(result=>{
+            formattedResults.push({
+            'Lugar' : index,
+            'Tequila' : result.tequila,
+            'Promedio' : result.average,
+            'Copa' : result.cup
+          });
+          index++;
+        });
+    
+        return formattedResults;
+    
+    }
+
+function calculateResultsForCata(scores){
+    let averagedResults = [];
+    let grouped = _.groupBy(scores, 'tequila');
+    let index = 0;
+    for (let key in grouped){
+        let theImportantStuff = grouped[key];
+        let avg = getAverageForTequila(theImportantStuff);
+        let score = {
+            average : avg,
+            rank : 0,
+            tequila : key,
+            cup : ++index
+        }
+        averagedResults.push(score);
+    }
+    averagedResults.sort((a,b)=> a.average - b.average).reverse();
+    
+    for(let i = 0; i < averagedResults.length; i++){
+        averagedResults[i].rank = i + 1;
+    }
+    console.log('nice', averagedResults);
+    return averagedResults;
+}
+
+function getAverageForTequila(tequilaInfo){
+    let averageScore = tequilaInfo.map(element => element.total).reduce((sum, a)=> { return sum + a },0)/ tequilaInfo.length;
+    return averageScore;
+}
+
+
 
 module.exports = router;

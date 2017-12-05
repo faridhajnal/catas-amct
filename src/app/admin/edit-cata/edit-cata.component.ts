@@ -42,6 +42,7 @@ export class EditCataComponent implements OnInit, CanComponentDeactivate {
     this.id = this.route.snapshot.params['id'];
     this.httpService.getCata(this.id,this.user.id).subscribe((cata)=>{
       this.cataOriginal = Object.assign({}, cata);
+      console.log(this.cataOriginal);
       this.cata = cata;
       this.participantTequilas = this.cata.tequilas;
       this.httpService.getTequilas(this.cata.kind, this.user.id).subscribe((data)=>{
@@ -104,6 +105,19 @@ export class EditCataComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
+  shuffleTequilas(){
+    this.shuffle(this.participantTequilas);
+    console.log(this.participantTequilas);
+  }
+
+  shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
   addSelection(id:string){
 
     if(this.participantTequilas.length == 10) {
@@ -121,7 +135,7 @@ export class EditCataComponent implements OnInit, CanComponentDeactivate {
     });
 
     if(!found) this.participantTequilas.push(this.tequilaCatalogue[id]);
-
+    console.log(this.participantTequilas);
   }
 
   onChange(id:number){

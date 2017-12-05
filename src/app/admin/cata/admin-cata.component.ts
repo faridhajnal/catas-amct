@@ -63,6 +63,26 @@ export class AdminCataComponent implements OnInit, OnDestroy {
         });
   }
 
+  setCataAsFinished(){
+    swal({
+      title: '¿Marcar como finalizada?',
+      text: "Esto terminará la cata y no se podrán registrar nuevas puntuaciones",
+      showCancelButton : true,
+      confirmButtonText: 'Sí',
+      cancelButtonText : 'Cancelar'
+    }).then(()=> {
+      this.httpService.updateCataStatus(this.cataId, 3, this.user.id).subscribe(data=>this.status = 3)
+    }, ()=>{
+      console.log('cerrado');
+    });
+  }
+
+  getCataResults(mode : number){
+    this.httpService.getCataResults(this.cataId, this.user.id, mode).subscribe(url=>{
+      window.open(url);
+    }, (err) => console.error(err));  
+  }
+
   ngOnDestroy(){
     //this.connection.unsubscribe();
     //this.socket.disconnectSocket();

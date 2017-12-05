@@ -11,6 +11,7 @@
 <div class="page-header" style="display:inline-block">
   <h2 style="display:inline-block">Editar cata</h2>
   <button *ngIf="activeTab === 'Tequila'" [disabled]="participantTequilas?.length === 0" (click)="addTequilasToCata(user.id)" class="btn btn-warning" style="margin-left:20px;margin-bottom:10px">Guardar Cambios</button>
+  <button class="btn btn-secondary" style="margin-left:20px;margin-bottom:10px" (click)="shuffleTequilas()">Aleatorio</button>
 </div>
 <form (ngSubmit)="edit(f.value)" #f="ngForm" *ngIf="activeTab === 'Info'">
   <div class="form-group">
@@ -40,7 +41,7 @@
 
   <div class="col-md-6 col-xs-12">
     <select (change)="onChange(selection.value)" class="form-control" #selection>
-        <option *ngFor="let tequila of tequilaCatalogue | sortName; let i = index" [value]="i">{{tequila.name}}</option>
+        <option *ngFor="let tequila of tequilaCatalogue; let i = index" [value]="i">{{tequila.name}}</option>
     </select>
     <br><br>
     <button class="form-control btn btn-success" (click)="addSelection(selection.value)">Añadir</button>
@@ -62,7 +63,7 @@
 <div *ngIf="activeTab === 'Tequila'">
       <h4 class="text-center">Tequilas actualmente : {{ participantTequilas?.length }} / 10</h4>
       <ul class="list-group">
-      <div class="row" *ngFor="let t of participantTequilas | sortName; let i = index">
+      <div class="row" *ngFor="let t of participantTequilas; let i = index">
             <div class="col-xs-12">  
               <li [ngClass]="{active : selectedTequila == t}" style="cursor:pointer;" class="list-group-item"
                   (click)="selectedTequila = t">

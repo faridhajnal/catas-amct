@@ -39,7 +39,7 @@ export class AdminMainComponent implements OnInit, OnDestroy {
     let bgc;
     if(status === 1) bgc = '#d9edf7'
     else if(status === 2) bgc = '#fcf8e3';
-    else bgc = "#16a085";
+    else bgc = "#dff0d8";
     return {
       'background-color' : bgc
     }

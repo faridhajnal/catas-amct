@@ -14,6 +14,13 @@ var scoreGroup = {
     evaluator : { type: Schema.Types.ObjectId, ref: 'Catador' }
 }
 
+var resultGroup = {
+    average : Number,
+    rank : Number,
+    cup : Number,
+    _id : false,
+    tequila : {type : Schema.Types.ObjectId, ref: 'Tequila'}
+}
 
 var cataSchema = mongoose.Schema({
       name : String,
@@ -22,7 +29,8 @@ var cataSchema = mongoose.Schema({
       status : {type:Number, default : 1},
       participants : [{ type: Schema.Types.ObjectId, ref: 'Catador'}],
       tequilas : [{type : Schema.Types.ObjectId, ref: 'Tequila'}],
-      scores : [scoreGroup]
+      scores : [scoreGroup],
+      results : [resultGroup]
 });
 
 module.exports = mongoose.model('Cata', cataSchema);

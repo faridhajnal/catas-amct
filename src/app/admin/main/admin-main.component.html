@@ -10,7 +10,7 @@
 
 
 <ul class="list-group">
-  <div class="row cata" *ngFor="let cata of catas" [ngStyle]="getBackground(cata.status)" style="margin-bottom:15px">
+  <div class="row cata" *ngFor="let cata of catas | sortByStatus" [ngStyle]="getBackground(cata.status)" style="margin-bottom:15px">
     <div class="col-xs-9 col-sm-10" style="padding-left:0 !important">
       <li class="list-group-item" (click)="accessCata(cata._id)" style="cursor: pointer; font-size : 1.3em; border:none;"
       [ngClass]="{'list-group-item-info' : cata.status === 1, 'list-group-item-warning' : cata.status === 2, 'list-group-item-success' : cata.status === 3}">
